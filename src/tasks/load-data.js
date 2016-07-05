@@ -1,6 +1,6 @@
 'use strict';
 const gulp = require('gulp');
-const $path = require('path');
+const _ = require('lodash');
 const xlsx = require('node-xlsx');
 const diacritics = require('diacritics');
 
@@ -23,7 +23,7 @@ gulp.task('load:data', () => {
         }
         let indexes = {},
             parties = {},
-            data = require('../../data/nationa-congress-data').map(datum => {
+            data = require('../../data/national-congress-data').map(datum => {
                 let name = datum.shortName,
                     email = datum.email,
                     fileName = diacritics.remove(name).trim().replace(/ /g, '-').toLocaleLowerCase(),
@@ -43,7 +43,8 @@ gulp.task('load:data', () => {
                     parties[party][2]++;
                 }
                 let person = {
-                    fullName: name,
+                    shortName: name,
+                    fullName: datum.fullName,
                     fileName,
                     party,
                     phone: datum.phone,
@@ -51,6 +52,7 @@ gulp.task('load:data', () => {
                     site: datum.links.details,
                     gender: datum.gender || 'M',
                     photo: `${fileName}.jpg`,
+                    photoUrl: datum.image,
                     state: datum.state,
                     vote,
                     class: vote ? 'favor' : vote === false ? 'contra' : 'indeciso',
@@ -63,46 +65,35 @@ gulp.task('load:data', () => {
 
         let obj = xlsx.parse($datum.file);
         obj[0].data.filter((o, i) => i !== 0 && o[0]).map(o => {
-            let email = o[3],
+            let email = o[0],
                 person = indexes[email];
-            if (!person) {
+            if (!person || obj) {
                 return;
             }
 
-            let name = o[0],
-                fileName = diacritics.remove(name).trim().replace(/ /g, '-').toLocaleLowerCase(),
-                vote = o[10] && o[10].trim().toLowerCase(),
-                party = o[1].trim().toUpperCase();
-            if (!parties[party]) {
-                parties[party] = [0, 0, 0];
-            }
+            let name = o[3],
+                vote = o[1] && o[1].trim().toLowerCase();
             if (!vote || ~vote.indexOf('indec')) {
                 vote = undefined;
-                parties[party][1]++;
             } else if (~vote.indexOf('favor')) {
                 vote = true;
-                parties[party][0]++;
             } else if (~vote.indexOf('contr')) {
                 vote = false;
-                parties[party][2]++;
             }
-            return {
+            let data = {
                 fullName: name,
-                fileName,
-                party,
-                phone: o[2],
-                email: o[3],
-                facebook: o[4] ? o[4].trim() : '',
-                twitter: o[5] ? o[5].trim() : '',
-                cabinet: o[6],
-                osite: o[7] ? o[7].trim() : '',
-                photo: `${fileName}.jpg`,
-                photoUrl: o[8],
-                gender: o[9],
+                phone: o[5],
+                facebook: o[6] ? o[6].trim() : '',
+                twitter: o[7] ? o[7].trim() : '',
+                cabinet: o[8],
+                osite: o[9] ? o[9].trim() : '',
+                photoUrl: o[10],
+                gender: o[11],
                 vote,
                 class: vote ? 'favor' : vote === false ? 'contra' : 'indeciso',
                 panelColor: 'panel-' + (vote ? 'primary' : vote === false ? 'red' : 'yellow')
-            }
+            };
+            _.extend(person, data);
         });
 
         $datum._data = data;
