@@ -1,0 +1,32 @@
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/">
+                <img src="{{defUrl}}/images/placar-header-48x48-{{version}}.png" width="28" height="28" />
+            </a>
+            {{#if city}}
+            <a class="navbar-brand" href="{{prjUrl}}">{{city}}</a>
+            {{/if}}
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                {{#if city}}
+                <li><a href="/partidos/index.html"><i class="glyphicon glyphicon-adjust" ></i> Partidos</a></li>
+                {{/if}}
+                <li><a href="/como-funciona.html"><i class="glyphicon glyphicon-phone" ></i> Como Funciona?</a></li>
+                <li><a href="/achou-erro.html"><i class="glyphicon glyphicon-pushpin" ></i> Achou um erro?</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<section class="page-title-wrap page-title-wrap-bg" style="background-image: url(/images/banner-fim-foro-{{version}}.jpg);height:150px;">
+    <div class="page-title-overlay"></div>
+    <div class="container">
+        <div class="page-title-inner block-center">
+            <div class="block-center-inner">
+                <h1>Fim do Foro Privilegiado!</h1>
+            </div>
+        </div>
+    </div>
+</section>
+<br/>

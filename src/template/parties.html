@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {{> metatags-import}}
+
+    <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+
+    {{> share-import}}
+
+    <link rel="stylesheet" href="/css/default-{{version}}.min.css">
+</head>
+<body>
+{{> header}}
+<div class="container no-select" id="navegacao">
+    <ol class="breadcrumb">
+        <li><a href="/">Placar</a></li>
+        <li class="active">Partidos</li>
+    </ol>
+</div>
+{{> share}}
+
+<div class="container-fluid" id="lista-favor-indeciso-contra">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h1 class="page-title">Lista de Partidos</h1>
+        </div>
+        <div class="panel-body container">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="panel panel-primary lista-deputados favor">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"><i class="fa fa-thumbs-up"></i> Maioria a favor da mobilidade</h3>
+                        </div>
+                        <div class="panel-body">
+                            <ul class="list-unstyled">
+                                {{#favor}}
+
+                                <div class="panel panel-primary panel-default">
+                                    <div class="panel-heading text-dots">{{party}}</div>
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-xs-4">
+                                                <div class="partido votacao favor">
+                                                    <h1>{{totalFavor}}<i class="fa fa-thumbs-up"></i></h1>
+                                                    <h2>A FAVOR</h2>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-4">
+                                                <div class="partido votacao">
+                                                    <h1>{{totalUnd}}<i class="fa fa-thumbs-down"></i></h1>
+                                                    <h2>INDECISOS</h2>
+                                                </div>
+
+                                            </div>
+                                            <div class="col-xs-4">
+                                                <div class="partido votacao contra">
+                                                    <h1>{{totalAgainst}}<i class="fa fa-thumbs-down"></i></h1>
+                                                    <h2>CONTRA</h2>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{/favor}}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="panel panel-yellow lista-deputados">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"><i class="fa fa-thumbs-down"></i>Maioria de indecisos</h3>
+                        </div>
+                        <div class="panel-body">
+                            <ul class="list-unstyled">
+                                {{#undecided}}
+                                <div class="panel panel-yellow panel-default">
+                                    <div class="panel-heading text-dots">{{party}}</div>
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-xs-4">
+                                                <div class="partido votacao favor">
+                                                    <h1>{{totalFavor}}<i class="fa fa-thumbs-up"></i></h1>
+                                                    <h2>A FAVOR</h2>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-4">
+                                                <div class="partido votacao">
+                                                    <h1>{{totalUnd}}<i class="fa fa-thumbs-down"></i></h1>
+                                                    <h2>INDECISOS</h2>
+                                                </div>
+
+                                            </div>
+                                            <div class="col-xs-4">
+                                                <div class="partido votacao contra">
+                                                    <h1>{{totalAgainst}}<i class="fa fa-thumbs-down"></i></h1>
+                                                    <h2>CONTRA</h2>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{/undecided}}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="panel panel-red contra">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"><i class="fa fa-thumbs-down"></i>Maioria contra a mobilidade</h3>
+                        </div>
+                        <div class="panel-body">
+                            <ul class="list-unstyled">
+                                {{#against}}
+                                <div class="panel panel-red panel-default">
+                                    <div class="panel-heading text-dots">{{party}}</div>
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-xs-4">
+                                                <div class="partido votacao favor">
+                                                    <h1>{{totalFavor}}<i class="fa fa-thumbs-up"></i></h1>
+                                                    <h2>A FAVOR</h2>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-4">
+                                                <div class="partido votacao">
+                                                    <h1>{{totalUnd}}<i class="fa fa-thumbs-down"></i></h1>
+                                                    <h2>INDECISOS</h2>
+                                                </div>
+
+                                            </div>
+                                            <div class="col-xs-4">
+                                                <div class="partido votacao contra">
+                                                    <h1>{{totalAgainst}}<i class="fa fa-thumbs-down"></i></h1>
+                                                    <h2>CONTRA</h2>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{/against}}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{{> footer}}
+</body>
+</html>

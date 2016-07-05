@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {{> metatags-import}}
+
+    <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+
+    {{> share-import}}
+
+    <link rel="stylesheet" href="/css/default-{{version}}.min.css">
+</head>
+<body>
+{{> header}}
+<div class="container no-select" id="navegacao">
+    <ol class="breadcrumb">
+        <li><a href="/">Placar</a></li>
+        <li><a href="/">{{typeCamel}}</a></li>
+        <li class="active">{{fullName}}</li>
+    </ol>
+</div>
+{{> share}}
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+
+            <div class="row deputado-circle {{class}} pagina {{type}}">
+                <div>
+                    <div class="foto" style="background-image: url('/images/deputados/{{photo}}');"></div>
+                </div>
+                <div>
+                    <h2>{{fullName}}</h2>
+                    <p>{{party}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="panel {{panelColor}}" id="dados-deputado">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><i class="fa fa-table"></i> Entre em contato com {{art}} {{type}}</h3>
+                </div>
+                <div class="panel-body">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Nome</label>
+                            <div class="col-sm-9"><p class="form-control-static">{{fullName}}</p></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">partido</label>
+                            <div class="col-sm-9"><p class="form-control-static">{{party}}
+                            </p></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Telefone</label>
+                            <div class="col-sm-9"><p class="form-control-static">{{phone}}</p></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">E-mail</label>
+                            <div class="col-sm-9"><p class="form-control-static">
+                                <a class="btn" href="mailto:{{email}}" rel="nofollow">{{email}}</a>
+                            </p></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Página</label>
+                            <div class="col-sm-9"><p class="form-control-static">
+                                <a class="btn" href="{{site}}" target="_blank">Página Pessoal</a>
+                            </p></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Gabinete</label>
+                            <div class="col-sm-9"><p class="form-control-static">{{cabinet}}</p></div>
+                        </div>
+                    </form>
+
+                    <div class="row" id="icones-sociais">
+                        {{#if facebook}}
+                        <div class="col-sm-6">
+                            <a class="btn btn-block btn-social btn-lg btn-facebook" rel="nofollow" href="{{facebook}}" target="_blank"><i class="fa fa-facebook"></i> Facebook</a>
+                        </div>
+                        {{/if}}
+
+                        {{#if twitter}}
+                        <div class="col-sm-6">
+                            <a class="btn btn-block btn-social btn-lg btn-twitter" rel="nofollow" href="{{twitter}}" target="_blank"><i class="fa fa-twitter"></i> Twitter</a>
+                        </div>
+                        {{/if}}
+                    </div>
+
+
+                </div>
+
+                <div class="panel-footer" style="font-size: 80%;">
+                    <h4 style="margin-top: 0px;">O que você pode fazer?</h4>
+
+
+                    <p>
+                        Acima você encontra várias formas de entrar em contato com {{art}} {{type}}.
+                    </p>
+                    <p>
+                        Já que {{art}} {{type}} está <b>{{pos}}</b>,
+                        você pode entrar em contato com ela para cobrá-lo por seu posicionamento.
+                        Com as informações que já são públicas, é inaceitável um deputado não se posicionar.
+                    </p>
+                    <p>
+                        Use os dados de contato acima para escrever para ela, telefonar ou
+                        postar nas suas redes sociais, cobrando seu posicionamento.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+$(function () {
+    $('.btn').on('click', function() {
+        ga && ga('send', 'event', 'link', window.location.pathname, $(this).text().trim());
+    });
+});
+</script>
+</body>
+</html>

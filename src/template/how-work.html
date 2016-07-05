@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {{> metatags-import}}
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/default-{{version}}.min.css">
+</head>
+<body>
+{{> header}}
+<div class="container no-select" id="navegacao">
+    <ol class="breadcrumb">
+        <li><a href="/">Placar</a></li>
+        <li class="active">Como Funciona?</li>
+    </ol>
+</div>
+<div class="container-fluid">
+    {{> default-how-work}}
+</div>
+</body>
+</html>
