@@ -34,7 +34,7 @@ module.exports = ($datum) => {
         tpl.url = baseUrl;
         tpl.desc = $datum.desc || $description;
         tpl.keywords = $datum.keywords;
-        tpl.imageUrl = `/images/logo-fim-foro-${tpl.version}.jpg`;
+        tpl.imageUrl = `/images/logo-social-${tpl.version}.jpg`;
         if (tpl.fullName) {
             let isMale = tpl.gender.trim() === 'M',
                 vote = tpl.vote;

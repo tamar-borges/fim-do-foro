@@ -57,19 +57,43 @@
                         </div>
 
 <script>
-var gauge1 = loadLiquidFillGauge("graficoFavor", {{favorPct}});
-var config1 = liquidFillGaugeDefaultSettings();
-config1.circleColor = "#D4AB6A";
-config1.textColor = "#553300";
-config1.waveTextColor = "#805615";
-config1.waveColor = "#AA7D39";
-var gauge2= loadLiquidFillGauge("graficoIndeciso", {{undecidedPct}}, config1);
-var config2 = liquidFillGaugeDefaultSettings();
-config2.circleColor = "#FF7777";
-config2.textColor = "#FF4444";
-config2.waveTextColor = "#FFAAAA";
-config2.waveColor = "#FFDDDD";
-var gauge3 = loadLiquidFillGauge("graficoContra", {{againstPct}}, config2);
+var $charts = [{
+    id: 'graficoFavor', val: '{{favorPct}}'
+}, {
+    id: 'graficoIndeciso', val: '{{undecidedPct}}',
+    circleColor: '#D4AB6A',
+    textColor: '#553300',
+    waveTextColor: '#805615',
+    waveColor: '#AA7D39'
+}, {
+    id: 'graficoContra', val: '{{againstPct}}',
+    circleColor: '#FF5555',
+    textColor: '#FF4444',
+    waveTextColor: '#FFAAAA',
+    waveColor: '#FF3636'
+}
+];
+
+for (var i= 0, len=$charts.length; i<len; i++) {
+    var $chat = $charts[i],
+        config = liquidFillGaugeDefaultSettings();
+    config.circleThickness = 0.15;
+    config.textVertPosition = 0.52;
+    config.waveAnimateTime = 5000;
+    config.waveHeight = 0;
+    config.waveAnimate = false;
+    config.waveCount = 2;
+    config.waveOffset = 0.25;
+    config.textSize = 1.2;
+
+    if ($chat.waveColor) {
+        config.circleColor = $chat.circleColor;
+        config.textColor = $chat.textColor;
+        config.waveTextColor = $chat.waveTextColor;
+        config.waveColor = $chat.waveColor;
+    }
+    loadLiquidFillGauge($chat.id, $chat.val, config);
+}
 </script>
                     </div>
                     <div class="row">
