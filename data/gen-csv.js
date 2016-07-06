@@ -1,5 +1,6 @@
 var fs = require('fs');
-var data = require('./national-congress-data');
+var data = require('./national-congress-data'),
+    commission = require('./commission');
 var csv = [
 ];
 for (let i= 0, len=data.length; i<len; i++) {
@@ -11,6 +12,7 @@ for (let i= 0, len=data.length; i<len; i++) {
         p.shortName,
         p.party,
         p.state,
+        ~commission.indexOf(p.email) ? 'X' : '',
         p.phone,
         '',
         '',
@@ -22,6 +24,6 @@ for (let i= 0, len=data.length; i<len; i++) {
     csv.push(line.join(';'));
 }
 
-fs.writeFileSync('fim-do-foro.csv', csv.join('\n'), 'utf8');
+fs.writeFileSync(`${__dirname}/fim-do-foro.csv`, csv.join('\n'), 'utf8');
 
 
