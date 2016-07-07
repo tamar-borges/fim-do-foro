@@ -10,14 +10,6 @@ gulp.task('load:data', () => {
     for (let d = 0; d < $data.length; d++) {
         let $datum = $data[d];
 
-        if (!$datum.desc) {
-            $datum.desc = [
-                `Ajude o Movimento Brasil Livre - ${$datum.city} (MBL-${$datum.state})`,
-                'a pressionar os deputados para votarem a favor do projeto de lei que regulamenta ',
-                'os aplicativos de compartilhamento de veículos, tais como o Uber, BlaBlaCar e Cabify.',
-                'Pela mobilidade urbana e pelo direito de escolha!'
-            ];
-        }
         if (Array.isArray($datum.desc)) {
             $datum.desc = $datum.desc.join(' ');
         }
@@ -48,6 +40,7 @@ gulp.task('load:data', () => {
                     fileName,
                     party,
                     phone: datum.phone,
+                    cabinet: datum.cabinet,
                     email,
                     site: datum.links.details,
                     gender: datum.gender || 'M',

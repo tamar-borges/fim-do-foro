@@ -1,30 +1,27 @@
 'use strict';
 const pathsFactory = require('./paths');
 
-const $title = 'Placar da Mobilidade';
+const $title = 'Fim do Foro Privilegiado';
 const $description = [
-    'Ajude o Movimento Brasil Livre a pressionar os deputados para votarem a favor do projeto de lei',
-    'que regulamenta os aplicativos de compartilhamento de veículos, tais como o Uber, BlaBlaCar e Cabify.',
-    'Pela mobilidade urbana e pelo direito de escolha!'
+    'Ajude o Movimento Brasil Livre a pressionar os deputados pelo fim do Foro Especial por Prerrogativa de Função, mais conhecido como Foro Privilegiado.'
 ].join(' ');
 
 module.exports = ($datum) => {
-    if (!$datum) $datum = {path: 'mobilidade'};
+    if (!$datum) $datum = {path: 'foro'};
 
     let paths = pathsFactory($datum);
-    let fromCity = $datum.city && `de ${$datum.city}` || '';
 
     if (!$datum.keywords || !~$datum.keywords.indexOf('mbl.org.br')) {
         $datum.keywords = [
             $datum.keywords,
-            'mobilidade', 'urbana', 'uber', 'blablacar', 'cabify',
+            'foro', 'privilegiado',
             'movimento', 'brasil', 'livre', 'mbl', 'mbl.org.br', 'mblivre'
         ].filter(k => !!k).join(',');
     }
 
     return (obj) => {
-        let baseUrl = paths.url.city,
-            _title = `${$title} ${fromCity}`;
+        let baseUrl = paths.url,
+            _title = $title;
         let tpl = obj || {};
 
         tpl.state = $datum.state;
@@ -34,7 +31,7 @@ module.exports = ($datum) => {
         tpl.url = baseUrl;
         tpl.desc = $datum.desc || $description;
         tpl.keywords = $datum.keywords;
-        tpl.imageUrl = `/images/logo-social-${tpl.version}.jpg`;
+        tpl.imageUrl = `/images/logo-social-512-380-${tpl.version}.jpg`;
         if (tpl.fullName) {
             let isMale = tpl.gender.trim() === 'M',
                 vote = tpl.vote;

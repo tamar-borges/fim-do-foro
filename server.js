@@ -8,7 +8,7 @@ let path = require('path'),
 
 // use logger
 app.use(morgan('dev'));
-app.use(express.static(`www/${$pack.name}`));
+app.use(express.static('www'));
 
 let port = 3030;
 
