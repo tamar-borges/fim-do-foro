@@ -10,7 +10,7 @@ const setClass = (person) => {
     let vote = person.vote;
 
     person.class = vote ? 'favor' : vote === false ? 'contra' : 'indeciso';
-    person.panelColor = 'panel-' + (vote ? 'primary' : vote === false ? 'red' : 'yellow');
+    person.color = (vote ? 'green' : vote === false ? 'gray' : 'purple');
     return person;
 };
 

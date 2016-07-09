@@ -57,16 +57,16 @@ footer {
     color: #428bca;
 }
 .bs-callout-danger {
-    border-left-color: #d9534f;
+    border-left-color: #606060;
 }
 .bs-callout-danger h4 {
-    color: #d9534f;
+    color: #606060;
 }
 .bs-callout-warning {
-    border-left-color: #f0ad4e;
+    border-left-color: #512886;
 }
 .bs-callout-warning h4 {
-    color: #f0ad4e;
+    color: #512886;
 }
 #shares {
     z-index: 300;
@@ -173,7 +173,7 @@ footer {
     border-color: #606060;
 }
 
-.deputado-circle {
+.card-info {
     min-width: 150px;
     max-width: 400px;
     margin: 0px auto;
@@ -182,17 +182,16 @@ footer {
     text-align: center;
 }
 
-.deputado-circle.pagina { padding: 10px; }
+.card-info.pagina { padding: 10px; }
 
-.deputado-circle h2 {
+.card-info h2 {
     margin-bottom: 0;
-    color: #f0ad4e;
+    color: #512886;
     font-size: 28px;
     font-weight: 500;
-
 }
 
-.deputado-circle p {
+.card-info p {
     margin-top: 0;;
     font-size: 18px;
     font-weight: 300;
@@ -200,17 +199,16 @@ footer {
 }
 
 
-.deputado-circle .foto {
+.card-info .foto {
     margin: 0px auto;
     background-color: white;
     width: 100%;
     padding: 0;
     padding-bottom: 100%;
-    border-radius: 100%;
     border: 5px solid white;
-    box-shadow: 0px 0px 0px 10px #f0ad4e;
-    background: #f0ad4e center center no-repeat none;
-    background-size: auto 100%;
+    box-shadow: 0px 0px 0px 10px #512886;
+    background: #512886 center center no-repeat none;
+    background-size: auto 80%;
     box-sizing: content-box;
     overflow: hidden;
     position: relative;
@@ -219,17 +217,17 @@ footer {
     -web-kit-transition: background-size 0.2s ease-out, box-shadow 0.2s ease-out;
 }
 
-.deputado-circle .foto:before {
+.card-info .foto:before {
     text-align: center;
     color: white;
-    content: 'INDECISO';
+    content: 'IGNORA';
     text-shadow: 1px 1px 0px rgba(0,0,0,0.2);
     font-size: 24px;
     line-height: 100%;
     font-weight: bold;
     padding: 1.3% 0 5% 0;
     display: block;
-    background-color: #f0ad4e;
+    background-color: #512886;
     position: absolute;
     bottom: 0; left: 0;
     width: 100%;
@@ -241,57 +239,56 @@ footer {
 
 }
 
-.deputado-circle.deputado .foto:before {
-    content: 'INDECISO';
+.card-info.deputado .foto:before {
+    content: 'IGNORA';
 }
-.deputado-circle.deputada .foto:before {
+.card-info.deputada .foto:before {
     content: 'INDECISA';
 }
 
 
-.deputado-circle.contra  .foto {
-    background-color: #d9534f;
-    box-shadow: 0px 0px 0px 10px #d9534f;
+.card-info.contra  .foto {
+    background-color: #606060;
+    box-shadow: 0px 0px 0px 10px #606060;
 }
-.deputado-circle.contra  .foto:before {
-    background-color: #d9534f;
-    content: 'CONTRA';
+.card-info.contra  .foto:before {
+    background-color: #606060;
+    content: '+ IMPUNIDADE';
 }
-.deputado-circle.contra h2 {
-    color: #d9534f;
+.card-info.contra h2 {
+    color: #606060;
+}
 
+.card-info.favor .foto {
+    background-color: #3D9561;
+    box-shadow: 0px 0px 0px 10px #3D9561;
 }
-
-.deputado-circle.favor .foto {
-    background-color: #337ab7;
-    box-shadow: 0px 0px 0px 10px #337ab7;
+.card-info.favor .foto:before {
+    background-color: #3D9561;
+    content: '- IMPUNIDADE';
 }
-.deputado-circle.favor .foto:before {
-    background-color: #337ab7;
-    content: 'A FAVOR';
-}
-.deputado-circle.favor h2 {
-    color: #337ab7;
+.card-info.favor h2 {
+    color: #3D9561;
 }
 
 
 a.deputado-link { display: block; color: inherit; }
 a.deputado-link:hover { color: inherit; text-decoration: none; }
-a.deputado-link:hover > .deputado-circle > div > div.foto { background-size: auto 120%; }
-a.deputado-link:hover > .deputado-circle > div > div.foto { background-color: #df8a13; box-shadow: 0px 0px 0px 10px #df8a13; }
-a.deputado-link:hover > .deputado-circle > div > div.foto:before { background-color: #df8a13; }
-a.deputado-link:hover > .deputado-circle > div > h2 { color: #df8a13; }
+a.deputado-link:hover > .card-info > div > div.foto { background-size: auto 120%; }
+a.deputado-link:hover > .card-info > div > div.foto { background-color: #df8a13; box-shadow: 0px 0px 0px 10px #df8a13; }
+a.deputado-link:hover > .card-info > div > div.foto:before { background-color: #df8a13; }
+a.deputado-link:hover > .card-info > div > h2 { color: #df8a13; }
 
-a.deputado-link.favor:hover > .deputado-circle > div > div.foto { background-color: #23527c; box-shadow: 0px 0px 0px 10px #23527c; }
-a.deputado-link.favor:hover > .deputado-circle > div > div.foto:before { background-color: #23527c; }
-a.deputado-link.favor:hover > .deputado-circle > div > h2 { color: #23527c; }
+a.deputado-link.favor:hover > .card-info > div > div.foto { background-color: #23527c; box-shadow: 0px 0px 0px 10px #23527c; }
+a.deputado-link.favor:hover > .card-info > div > div.foto:before { background-color: #23527c; }
+a.deputado-link.favor:hover > .card-info > div > h2 { color: #23527c; }
 
-a.deputado-link.contra:hover > .deputado-circle > div > div.foto { background-color: #b52b27; box-shadow: 0px 0px 0px 10px #b52b27; }
-a.deputado-link.contra:hover > .deputado-circle > div > div.foto:before { background-color: #b52b27; }
-a.deputado-link.contra:hover > .deputado-circle > div > h2 { color: #b52b27; }
+a.deputado-link.contra:hover > .card-info > div > div.foto { background-color: #b52b27; box-shadow: 0px 0px 0px 10px #b52b27; }
+a.deputado-link.contra:hover > .card-info > div > div.foto:before { background-color: #b52b27; }
+a.deputado-link.contra:hover > .card-info > div > h2 { color: #b52b27; }
 
 .votacao  {
-    color: #f0ad4e;
+    color: #512886;
     text-align: center;
     font-size: 12px;
 }
@@ -301,8 +298,8 @@ a.deputado-link.contra:hover > .deputado-circle > div > h2 { color: #b52b27; }
 .votacao > * { margin: 0; text-align: center; }
 .votacao > h1 > i { margin-left: 6px; }
 .votacao > h1 { font-size: 2.2em; font-weight: 900; }
-.votacao > h2 { font-size: 1em; padding: 0px 0.7em; line-height: 1.7em; display: inline-block; background-color: #f0ad4e; color: white; margin: 0 auto; margin-top: 5px; border-radius: 0.6em; font-weight: 500; white-space: nowrap; text-shadow: 1px 1px 1px rgba(0,0,0,0.2); }
-.votacao.favor { color: #337ab7; }
-.votacao.favor > h2 { background-color: #337ab7; }
-.votacao.contra { color: #d9534f; }
-.votacao.contra > h2 { background-color: #d9534f; }
+.votacao > h2 { font-size: 1em; padding: 0px 0.7em; line-height: 1.7em; display: inline-block; background-color: #512886; color: white; margin: 0 auto; margin-top: 5px; border-radius: 0.6em; font-weight: 500; white-space: nowrap; text-shadow: 1px 1px 1px rgba(0,0,0,0.2); }
+.votacao.favor { color: #3D9561; }
+.votacao.favor > h2 { background-color: #3D9561; }
+.votacao.contra { color: #606060; }
+.votacao.contra > h2 { background-color: #606060; }
