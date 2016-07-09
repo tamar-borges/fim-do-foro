@@ -80,9 +80,9 @@ footer {
 .legenda i {
     margin-left: 0.5em;
 }
-.legenda i.favor {color: #337ab7;}
-.legenda i.indecisos {color: #f0ad4e;}
-.legenda i.contra {color: #d9534f;}
+.legenda i.favor {color: #3D9561;}
+.legenda i.indecisos {color: #C6A4A4;}
+.legenda i.contra {color: #BA1C1C;}
 
 .block-center-inner {
     color: #af111c;
@@ -128,27 +128,47 @@ footer {
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
 }
-.panel-yellow {
-    border-color: #f0ad4e;
-}
 .panel-red {
     border-color: #d9534f;
-}
-.panel-yellow .panel-heading {
-    border-color: #f0ad4e;
-    color: #fff;
-    background-color: #f0ad4e;
 }
 .panel-red .panel-heading {
     border-color: #d9534f;
     color: #fff;
-    background-color: #d9534f;
+    background-color: #bf1d1d;
 }
 
 .page-title-wrap-bg {
     background-repeat: no-repeat;
     background-position: center;
     background-size: 394px 150px;
+}
+
+.btn-primary, .panel-primary .panel-heading {
+    color: #fff;
+    background-color: #3D9561;
+    border-color: #2E8453;
+}
+
+.btn-primary:hover {
+    background-color: #9EC129;
+    border-color: #95BC15;
+}
+
+.btn-warning, .panel-warning .panel-heading {
+    color: #fff;
+    background-color: #C6A4A4;
+    border-color: #AC8D8D;
+}
+.btn-warning:hover {
+    background-color: #813F41;
+    border-color: #722E30;
+}
+
+.panel-primary {
+    border-color: #2E8453;
+}
+.panel-warning {
+    border-color: #AC8D8D;
 }
 
 .deputado-circle {
@@ -160,9 +180,7 @@ footer {
     text-align: center;
 }
 
-
 .deputado-circle.pagina { padding: 10px; }
-
 
 .deputado-circle h2 {
     margin-bottom: 0;
