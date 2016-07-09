@@ -6,6 +6,14 @@ const diacritics = require('diacritics');
 
 global.$data = require('../../data');
 
+const setClass = (person) => {
+    let vote = person.vote;
+
+    person.class = vote ? 'favor' : vote === false ? 'contra' : 'indeciso';
+    person.panelColor = 'panel-' + (vote ? 'primary' : vote === false ? 'red' : 'yellow');
+    return person;
+};
+
 gulp.task('load:data', () => {
     for (let d = 0; d < $data.length; d++) {
         let $datum = $data[d];
@@ -37,6 +45,7 @@ gulp.task('load:data', () => {
                 let person = {
                     shortName: name,
                     fullName: datum.fullName,
+                    dir: 'deputados',
                     fileName,
                     party,
                     phone: datum.phone,
@@ -47,10 +56,9 @@ gulp.task('load:data', () => {
                     photo: `${fileName}.jpg`,
                     photoUrl: datum.image,
                     state: datum.state,
-                    vote,
-                    class: vote ? 'favor' : vote === false ? 'contra' : 'indeciso',
-                    panelColor: 'panel-' + (vote ? 'primary' : vote === false ? 'red' : 'yellow')
+                    vote
                 };
+                setClass(person);
                 indexes[email] = person;
                 return person;
             });
@@ -82,11 +90,24 @@ gulp.task('load:data', () => {
                 osite: o[9] ? o[9].trim() : '',
                 photoUrl: o[10],
                 gender: o[11],
-                vote,
-                class: vote ? 'favor' : vote === false ? 'contra' : 'indeciso',
-                panelColor: 'panel-' + (vote ? 'primary' : vote === false ? 'red' : 'yellow')
+                vote
             };
             _.extend(person, data);
+            setClass(person);
+        });
+
+        // check thiefs
+        require('../../data/thiefs').forEach(thief => {
+            let person = indexes[thief.email];
+            if (!person) return;
+
+            person.thief = true;
+            person.prosecutions = thief.list;
+
+            if ('boolean' !== typeof person.vote) {
+                person.vote = false;
+                setClass(person);
+            }
         });
 
         $datum._data = data;

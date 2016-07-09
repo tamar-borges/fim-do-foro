@@ -25,6 +25,9 @@ gulp.task('gen:placar', ['load:data'], () => {
         };
         tplDefaults(template);
 
+        template.presidentClass = 'gray';
+        template.president = {shortName: 'Michel Temer', party: 'PMDB', dir: 'executivos', fileName: 'michel-temer'};
+
         template.favorEmails = template.favor.map(o => o.email).join(',');
         template.undecidedEmails = template.undecided.map(o => o.email).join(',');
         template.againstEmails = template.against.map(o => o.email).join(',');

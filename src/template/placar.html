@@ -16,13 +16,18 @@
 </head>
 <body>
 {{> header}}
-<div class="container no-select" id="navegacao">
+<div class="container-fluid no-select" id="navegacao">
     <ol class="breadcrumb">
         <li><a href="/">Placar</a></li>
     </ol>
 </div>
 {{> share}}
-<div class="container no-select" id="graficos">
+<div class="container-fluid no-select" id="graficos">
+    <div class="row">
+        <blockquote>
+            <p>Art. 5º Todos são iguais perante a lei, sem distinção de qualquer natureza, garantindo-se aos brasileiros e aos estrangeiros residentes no País a inviolabilidade do direito à vida, à liberdade, à igualdade, à segurança e à propriedade.</p>
+        </blockquote>
+    </div>
     <div class="row">
         <div class="panel panel-default">
             <div class="panel-body">
@@ -30,12 +35,18 @@
                 <div id="donuts" class="select-chart active">
                     <div class="row col-sm-12 placeholders">
 
-                        <div class="col-sm-3 panel panel-{{#if camaraSim}}primary{{else}}red{{/if}}" style="border: 0;text-align: center;">
+                        <div class="col-sm-6 panel panel-{{#if camaraSim}}primary{{else}}gray{{/if}}" style="border: 0;text-align: center;">
                             <div class="panel-heading">
                                 {{#if camaraSim}}
-                                <h3 class="panel-title"><i class="fa fa-thumbs-up"></i> Maioria da Câmara é A Favor</h3>
+                                <h3 class="panel-title">
+                                    <i class="glyphicon glyphicon-minus"></i>Impunidade&nbsp;
+                                    <i class="fa fa-thumbs-up"></i> Maioria da Câmara quer menos privilêgios
+                                </h3>
                                 {{else}}
-                                <h3 class="panel-title"><i class="fa fa-thumbs-down"></i> Maioria da Câmara é Contra</h3>
+                                <h3 class="panel-title">
+                                    <i class="glyphicon glyphicon-plus"></i>Impunidade&nbsp;
+                                    <i class="fa fa-thumbs-down"></i> Maioria da Câmara quer mais privilêgios
+                                </h3>
                                 {{/if}}
                             </div>
                             <div id="chart-camara" class="chart-donut" style="margin-top: 5px;">
@@ -43,12 +54,18 @@
                             </div>
                         </div>
 
-                        <div class="col-sm-3 panel panel-{{#if senadoSim}}primary{{else}}red{{/if}}" style="border: 0;text-align: center;">
+                        <div class="col-sm-6 panel panel-{{#if senadoSim}}primary{{else}}gray{{/if}}" style="border: 0;text-align: center;">
                             <div class="panel-heading">
                                 {{#if senadoSim}}
-                                <h3 class="panel-title"><i class="fa fa-thumbs-up"></i> Maioria do Senado é A Favor</h3>
+                                <h3 class="panel-title">
+                                    <i class="glyphicon glyphicon-minus"></i>Impunidade&nbsp;
+                                    <i class="fa fa-thumbs-up"></i> Maioria do Senado quer menos privilêgios
+                                </h3>
                                 {{else}}
-                                <h3 class="panel-title"><i class="fa fa-thumbs-down"></i> Maioria do Senado é Contra</h3>
+                                <h3 class="panel-title">
+                                    <i class="glyphicon glyphicon-plus"></i>Impunidade&nbsp;
+                                    <i class="fa fa-thumbs-down"></i> Maioria do Senado quer mais privilêgios
+                                </h3>
                                 {{/if}}
                             </div>
                             <div id="chart-senado" class="chart-donut" style="margin-top: 5px;">
@@ -61,39 +78,45 @@
 <script>
 var colors = [
     '#3D9561',
-    '#C6A4A4',
-    '#BA1C1C'
+    '#512886',
+    '#606060'
 ];
+function getData(arr) {
+    return [
+        {label: "- Impunidade", value: arr[0]},
+        {label: "Ignoram a Impunidade", value: arr[1]},
+        {label: "+ Impunidade", value: arr[2]}
+    ];
+}
 Morris.Donut({
     element: 'graficoCamara',
-    data: [
-        {label: "A favor", value: 30},
-        {label: "Nulo", value: 500},
-        {label: "Contra", value: 90}
-    ],
-    colors: colors
+    data: getData([30,500,90]),
+    colors: colors,
+    formatter: function (x) { return x + " deputados"}
 });
 Morris.Donut({
     element: 'graficoSenado',
-    data: [
-        {label: "A favor", value: 7},
-        {label: "Nulo", value: 35},
-        {label: "Contra", value: 20}
-    ],
-    colors: colors
+    data: getData([7,35,10]),
+    colors: colors,
+    formatter: function (x) { return x + " senadores"}
 });
 </script>
                     </div>
                     <div class="row">
                         <div class="col-xs-12">
                             <div class="legenda">
-                                <i class="fa fa-circle favor"></i> A favor ({{favor.length}})
-                                <i class="fa fa-circle indecisos"></i> Nulos ({{undecided.length}})
-                                <i class="fa fa-circle contra"></i> Contra ({{against.length}})
+                                <i class="fa fa-circle green"></i> A favor ({{favor.length}})
+                                <i class="fa fa-circle purple"></i> Nulos ({{undecided.length}})
+                                <i class="fa fa-circle gray"></i> Contra ({{against.length}})
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="row">
+                <a class="btn btn-block btn-{{presidentClass}} btn-margin" rel="nofollow" href="/{{president.dir}}/{{president.fileName}}.html">
+                    <i class="fa fa-thumbs-down"></i> Presidente Interino: {{president.shortName}}
+                </a>
             </div>
         </div>
     </div>
@@ -107,16 +130,16 @@ Morris.Donut({
         <div class="panel-body container">
             <div class="row">
                 <div class="col-sm-4">
-                    <a class="btn btn-block btn-primary btn-margin" rel="nofollow" href="mailto:?bcc={{favorEmails}}" target="_blank"><i class="fa fa-envelope"></i> Fale com os favoráveis</a>
+                    <a class="btn btn-block btn-green btn-margin" rel="nofollow" href="mailto:?bcc={{favorEmails}}" target="_blank"><i class="fa fa-envelope"></i> Fale com os favoráveis</a>
 
-                    <div class="panel panel-primary lista-deputados favor">
+                    <div class="panel panel-green lista-deputados favor">
                         <div class="panel-heading">
                             <h3 class="panel-title"><i class="fa fa-thumbs-up"></i> A favor da mobilidade</h3>
                         </div>
                         <div class="panel-body">
                             <ul class="list-unstyled">
                                 {{#favor}}
-                                <li><a href="/deputados/{{fileName}}.html"><b>{{shortName}}</b><span> - {{party}}</span></a></li>
+                                {{> item-list}}
                                 {{/favor}}
                             </ul>
                         </div>
@@ -124,17 +147,17 @@ Morris.Donut({
                 </div>
 
                 <div class="col-sm-4">
-                    <a class="btn btn-block btn-warning btn-margin" rel="nofollow" href="mailto:?bcc={{undecidedEmails}}" target="_blank"><i class="fa fa-envelope"></i> Fale com os indecisos</a>
+                    <a class="btn btn-block btn-purple btn-margin" rel="nofollow" href="mailto:?bcc={{undecidedEmails}}" target="_blank"><i class="fa fa-envelope"></i> Fale com os indecisos</a>
 
 
-                    <div class="panel panel-warning lista-deputados">
+                    <div class="panel panel-purple lista-deputados">
                         <div class="panel-heading">
                             <h3 class="panel-title"><i class="fa fa-thumbs-down"></i> Nulos</h3>
                         </div>
                         <div class="panel-body">
                             <ul class="list-unstyled">
                                 {{#undecided}}
-                                <li><a href="/deputados/{{fileName}}.html"><b>{{shortName}}</b><span> - {{party}}</span></a></li>
+                                {{> item-list}}
                                 {{/undecided}}
                             </ul>
                         </div>
@@ -142,17 +165,17 @@ Morris.Donut({
                 </div>
 
                 <div class="col-sm-4">
-                    <a class="btn btn-block btn-danger btn-margin" rel="nofollow" href="mailto:?bcc={{againstEmails}}" target="_blank"><i class="fa fa-envelope"></i> Fale com os contrários</a>
+                    <a class="btn btn-block btn-gray btn-margin" rel="nofollow" href="mailto:?bcc={{againstEmails}}" target="_blank"><i class="fa fa-envelope"></i> Fale com os contrários</a>
 
 
-                    <div class="panel panel-red lista-deputados contra">
+                    <div class="panel panel-gray lista-deputados contra">
                         <div class="panel-heading">
                             <h3 class="panel-title"><i class="fa fa-thumbs-down"></i> Contra a mobilidade</h3>
                         </div>
                         <div class="panel-body">
                             <ul class="list-unstyled">
                                 {{#against}}
-                                <li><a href="/deputados/{{fileName}}.html"><b>{{shortName}}</b><span> - {{party}}</span></a></li>
+                                {{> item-list}}
                                 {{/against}}
                             </ul>
                         </div>

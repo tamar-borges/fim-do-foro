@@ -24,6 +24,6 @@ for (let i= 0, len=data.length; i<len; i++) {
     csv.push(line.join(';'));
 }
 
-fs.writeFileSync(`${__dirname}/fim-do-foro.csv`, csv.join('\n'), 'utf8');
+fs.writeFileSync(`${__dirname}/national-congress.csv`, csv.join('\n'), 'utf8');
 
 
