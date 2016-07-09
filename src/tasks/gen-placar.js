@@ -19,35 +19,59 @@ gulp.task('gen:placar', ['load:data'], () => {
             tplDefaults = tplDefaultsFactory($datum);
 
         let template = {
-            favor: _data.filter(o => o.vote === true),
-            undecided: _data.filter(o => o.vote === undefined),
-            against: _data.filter(o => o.vote === false)
+            senate: {favor: [], undecided: [], against: []},
+            congress: {favor: [], undecided: [], against: []},
+            presidentClass: 'purple',
+            president: {shortName: 'Michel Temer', party: 'PMDB', dir: 'executivos', fileName: 'michel-temer'}
+        };
+        let emails = {
+            favor: [],
+            undecided: [],
+            against: []
         };
         tplDefaults(template);
 
-        template.presidentClass = 'purple';
-        template.president = {shortName: 'Michel Temer', party: 'PMDB', dir: 'executivos', fileName: 'michel-temer'};
+        for (let i= 0, len=_data.length; i<len; i++) {
+            let person = _data[i],
+                tplRef = person.dir === 'deputados' ? template.congress : template.senate,
+                vote = person.vote;
+            if (vote) {
+                tplRef.favor.push(person);
+                emails.favor.push(person.email);
+            } else if (vote === false) {
+                tplRef.against.push(person);
+                emails.against.push(person.email);
+            } else {
+                tplRef.undecided.push(person);
+                emails.undecided.push(person.email);
+            }
+        }
 
-        template.favorEmails = template.favor.map(o => o.email).join(',');
-        template.undecidedEmails = template.undecided.map(o => o.email).join(',');
-        template.againstEmails = template.against.map(o => o.email).join(',');
+        // emails
+        template.favorEmails = emails.favor.join(',');
+        template.undecidedEmails = emails.undecided.join(',');
+        template.againstEmails = emails.against.join(',');
 
-        template.favorPct = Math.round((template.favor.length + 1) * 100 / _data.length);
-        template.againstPct = Math.round((template.against.length + 1) * 100 / _data.length);
+        // opinions
+        template.senateFavor = template.senate.favor.length > (template.senate.against.length + template.senate.undecided.length);
+        template.congressFavor = template.senate.favor.length > (template.senate.against.length + template.senate.undecided.length);
 
-        let undPct = 100 - (template.againstPct + template.favorPct);
-        template.undecidedPct = Math.round(undPct);
+        if (template.senateFavor && template.congressFavor) {
+            template.parlamentClass = 'green';
+        } else if (!template.senateFavor && !template.congressFavor){
+            template.parlamentClass = 'gray';
+        } else {
+            template.parlamentClass = 'purple';
+        }
 
-        ['favorPct', 'againstPct', 'undecidedPct'].forEach(n => _data[n] = template[n]);
-
-        let paths = ['', 'deputados'];
+        let paths = ['', 'deputados', 'senadores'];
         for (let i = 0, len = paths.length; i < len; i++) {
             let path = paths[i];
             let templ = JSON.parse(JSON.stringify(template));
             if (path !== '') {
                 templ.url += `/${path}`;
             }
-            let prom = gulp.src($path.join($paths.template, 'placar.html'))
+            let prom = gulp.src($path.join($paths.template, `placar.html`))
                 .pipe(plugins.compileHandlebars(templ, options))
                 .pipe(plugins.rename(`index.html`))
                 .pipe(plugins.htmlmin({

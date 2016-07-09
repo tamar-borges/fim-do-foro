@@ -11,8 +11,6 @@
     {{> share-import}}
 
     <link rel="stylesheet" href="/css/default-{{version}}.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.16/d3.min.js"></script>
-    <script src="/js/liquidFillGauge-{{version}}.min.js"></script>
 </head>
 <body>
 {{> header}}
@@ -37,9 +35,9 @@
                 <div id="donuts" class="select-chart active">
                     <div class="row col-sm-12 placeholders">
 
-                        <div class="col-sm-6 panel panel-{{#if camaraSim}}primary{{else}}gray{{/if}}" style="border: 0;text-align: center;">
+                        <div class="col-sm-6 panel panel-{{#if congressFavor}}primary{{else}}gray{{/if}}" style="border: 0;text-align: center;">
                             <div class="panel-heading">
-                                {{#if camaraSim}}
+                                {{#if congressFavor}}
                                 <h3 class="panel-title">
                                     <i class="glyphicon glyphicon-minus"></i>Impunidade&nbsp;
                                     <i class="fa fa-thumbs-up"></i> Maioria da Câmara quer menos privilêgios
@@ -56,9 +54,9 @@
                             </div>
                         </div>
 
-                        <div class="col-sm-6 panel panel-{{#if senadoSim}}primary{{else}}gray{{/if}}" style="border: 0;text-align: center;">
+                        <div class="col-sm-6 panel panel-{{#if senateFavor}}primary{{else}}gray{{/if}}" style="border: 0;text-align: center;">
                             <div class="panel-heading">
-                                {{#if senadoSim}}
+                                {{#if senateFavor}}
                                 <h3 class="panel-title">
                                     <i class="glyphicon glyphicon-minus"></i>Impunidade&nbsp;
                                     <i class="fa fa-thumbs-up"></i> Maioria do Senado quer menos privilêgios
@@ -74,7 +72,7 @@
                                 <div id="graficoSenado"></div>
                             </div>
                         </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.1/raphael.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
 
 <script>
@@ -92,13 +90,13 @@ function getData(arr) {
 }
 Morris.Donut({
     element: 'graficoCamara',
-    data: getData([30,500,90]),
+    data: getData([{{congress.favor.length}},{{congress.undecided.length}},{{congress.against.length}}]),
     colors: colors,
     formatter: function (x) { return x + " deputados"}
 });
 Morris.Donut({
     element: 'graficoSenado',
-    data: getData([7,35,10]),
+    data: getData([{{senate.favor.length}},{{senate.undecided.length}},{{senate.against.length}}]),
     colors: colors,
     formatter: function (x) { return x + " senadores"}
 });
@@ -107,9 +105,9 @@ Morris.Donut({
                     <div class="row">
                         <div class="col-xs-12">
                             <div class="legenda">
-                                <i class="fa fa-circle green"></i> A favor ({{favor.length}})
-                                <i class="fa fa-circle purple"></i> Nulos ({{undecided.length}})
-                                <i class="fa fa-circle gray"></i> Contra ({{against.length}})
+                                <i class="fa fa-circle green"></i> Querem Menos Impunidade ({{congress.favor.length}} / {{senate.favor.length}})
+                                <i class="fa fa-circle purple"></i> Ignoram a Impunidade ({{congress.undecided.length}} / {{senate.undecided.length}})
+                                <i class="fa fa-circle gray"></i> Querem Mais Impunidade ({{congress.against.length}} / {{senate.against.length}})
                             </div>
                         </div>
                     </div>
@@ -125,24 +123,34 @@ Morris.Donut({
 </div>
 
 <div class="container-fluid" id="lista-favor-indeciso-contra">
-    <div class="panel panel-default">
+    <div class="panel panel-default {{parlamentClass}}">
         <div class="panel-heading">
-            <h1 class="page-title">Lista de parlamentares</h1>
+            <h3 class="page-title">Lista de parlamentares</h3>
         </div>
         <div class="panel-body container">
+            <div class="row">
+                <blockquote><div class="legenda">
+                    <i class="fa fa-user-secret"></i><i>&nbsp;São réus em uma ou mais ações na Justiça.</i><br/>
+                    <i class="fa fa-pencil-square-o"></i><i>&nbsp;Membro da Comssião para analisar as pautas sobre o Foro Privilegiado.</i>
+                </div></blockquote>
+            </div>
             <div class="row">
                 <div class="col-sm-4">
                     <a class="btn btn-block btn-green btn-margin" rel="nofollow" href="mailto:?bcc={{favorEmails}}" target="_blank"><i class="fa fa-envelope"></i> Fale com os favoráveis</a>
 
                     <div class="panel panel-green lista-deputados favor">
                         <div class="panel-heading">
-                            <h3 class="panel-title"><i class="fa fa-thumbs-up"></i> A favor da mobilidade</h3>
+                            <h3 class="panel-title"><i class="fa fa-thumbs-up"></i> Querem Menos Impunidade</h3>
                         </div>
                         <div class="panel-body">
                             <ul class="list-unstyled">
-                                {{#favor}}
+                                {{#senate.favor}}
                                 {{> item-list}}
-                                {{/favor}}
+                                {{/senate.favor}}
+                                <li class="divider"><hr/></li>
+                                {{#congress.favor}}
+                                {{> item-list}}
+                                {{/congress.favor}}
                             </ul>
                         </div>
                     </div>
@@ -151,16 +159,19 @@ Morris.Donut({
                 <div class="col-sm-4">
                     <a class="btn btn-block btn-purple btn-margin" rel="nofollow" href="mailto:?bcc={{undecidedEmails}}" target="_blank"><i class="fa fa-envelope"></i> Fale com os indecisos</a>
 
-
                     <div class="panel panel-purple lista-deputados">
                         <div class="panel-heading">
-                            <h3 class="panel-title"><i class="fa fa-thumbs-down"></i> Nulos</h3>
+                            <h3 class="panel-title"><i class="fa fa-thumbs-down"></i> Ignoram a Impunidade</h3>
                         </div>
                         <div class="panel-body">
                             <ul class="list-unstyled">
-                                {{#undecided}}
+                                {{#senate.undecided}}
                                 {{> item-list}}
-                                {{/undecided}}
+                                {{/senate.undecided}}
+                                <li class="divider"><hr/></li>
+                                {{#congress.undecided}}
+                                {{> item-list}}
+                                {{/congress.undecided}}
                             </ul>
                         </div>
                     </div>
@@ -169,16 +180,19 @@ Morris.Donut({
                 <div class="col-sm-4">
                     <a class="btn btn-block btn-gray btn-margin" rel="nofollow" href="mailto:?bcc={{againstEmails}}" target="_blank"><i class="fa fa-envelope"></i> Fale com os contrários</a>
 
-
                     <div class="panel panel-gray lista-deputados contra">
                         <div class="panel-heading">
-                            <h3 class="panel-title"><i class="fa fa-thumbs-down"></i> Contra a mobilidade</h3>
+                            <h3 class="panel-title"><i class="fa fa-thumbs-down"></i> Querem Mais Impunidade</h3>
                         </div>
                         <div class="panel-body">
                             <ul class="list-unstyled">
-                                {{#against}}
+                                {{#senate.against}}
                                 {{> item-list}}
-                                {{/against}}
+                                {{/senate.against}}
+                                <li class="divider"><hr/></li>
+                                {{#congress.against}}
+                                {{> item-list}}
+                                {{/congress.against}}
                             </ul>
                         </div>
                     </div>

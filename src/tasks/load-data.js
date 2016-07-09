@@ -13,6 +13,44 @@ const setClass = (person) => {
     person.color = (vote ? 'green' : vote === false ? 'gray' : 'purple');
     return person;
 };
+const verifyVote = vote => {
+    if (!vote || ~vote.indexOf('indec')) {
+        vote = undefined;
+    } else if (~vote.indexOf('favor')) {
+        vote = true;
+    } else if (~vote.indexOf('contr')) {
+        vote = false;
+    }
+    return vote;
+};
+
+const loadPerson = (dir, indexes) => datum => {
+    let name = datum.shortName,
+        email = datum.email,
+        fileName = diacritics.remove(name).trim().replace(/ /g, '-').toLocaleLowerCase(),
+        vote = datum.opinion && datum.opinion.trim().toLowerCase(),
+        party = datum.party.trim().toUpperCase();
+
+    let person = {
+        shortName: name,
+        fullName: datum.fullName,
+        dir,
+        fileName,
+        party,
+        phone: datum.phone,
+        cabinet: datum.cabinet,
+        email,
+        siteGov: datum.links && datum.links.details || '',
+        gender: datum.gender || 'M',
+        photo: `${fileName}.jpg`,
+        photoUrl: datum.image,
+        state: datum.state,
+        vote: verifyVote(vote)
+    };
+    setClass(person);
+    indexes[email || fileName.replace(/-/g, '.')] = person;
+    return person;
+};
 
 gulp.task('load:data', () => {
     for (let d = 0; d < $data.length; d++) {
@@ -23,74 +61,59 @@ gulp.task('load:data', () => {
         }
         let indexes = {},
             parties = {},
-            data = require('../../data/national-congress-data').map(datum => {
-                let name = datum.shortName,
-                    email = datum.email,
-                    fileName = diacritics.remove(name).trim().replace(/ /g, '-').toLocaleLowerCase(),
-                    vote = datum.opinion && datum.opinion.trim().toLowerCase(),
-                    party = datum.party.trim().toUpperCase();
-                if (!parties[party]) {
-                    parties[party] = [0, 0, 0];
-                }
-                if (!vote || ~vote.indexOf('indec')) {
-                    vote = undefined;
-                    parties[party][1]++;
-                } else if (~vote.indexOf('favor')) {
-                    vote = true;
-                    parties[party][0]++;
-                } else if (~vote.indexOf('contr')) {
-                    vote = false;
-                    parties[party][2]++;
-                }
-                let person = {
-                    shortName: name,
-                    fullName: datum.fullName,
-                    dir: 'deputados',
-                    fileName,
-                    party,
-                    phone: datum.phone,
-                    cabinet: datum.cabinet,
-                    email,
-                    site: datum.links.details,
-                    gender: datum.gender || 'M',
-                    photo: `${fileName}.jpg`,
-                    photoUrl: datum.image,
-                    state: datum.state,
-                    vote
-                };
-                setClass(person);
-                indexes[email] = person;
-                return person;
-            });
-
+            data = [],
+            congress = require('../../data/national-congress-data').map(loadPerson('deputados', indexes)),
+            senates = require('../../data/national-senate-data').map(loadPerson('senadores', indexes));
+        data.push(...senates);
+        data.push(...congress);
 
         let obj = xlsx.parse($datum.file);
-        obj[0].data.filter((o, i) => i !== 0 && o[0]).map(o => {
+        // Deputados
+        obj[0] && obj[0].data && obj[0].data.filter((o, i) => i !== 0 && o[0]).map(o => {
             let email = o[0],
                 person = indexes[email];
-            if (!person || obj) {
+            if (!person) {
                 return;
             }
 
             let name = o[3],
                 vote = o[1] && o[1].trim().toLowerCase();
-            if (!vote || ~vote.indexOf('indec')) {
-                vote = undefined;
-            } else if (~vote.indexOf('favor')) {
-                vote = true;
-            } else if (~vote.indexOf('contr')) {
-                vote = false;
-            }
             let data = {
                 fullName: name,
-                phone: o[5],
-                facebook: o[6] ? o[6].trim() : '',
-                twitter: o[7] ? o[7].trim() : '',
-                cabinet: o[8],
-                osite: o[9] ? o[9].trim() : '',
-                photoUrl: o[10],
-                gender: o[11],
-                vote
+                commission: o[6] && o[6].toLowerCase().trim() === 'x',
+                phone: o[7],
+                facebook: o[8] ? o[8].trim() : '',
+                twitter: o[9] ? o[9].trim() : '',
+                cabinet: o[10],
+                site: o[11] ? o[11].trim() : person.siteGov,
+                photoUrl: o[12],
+                gender: o[13],
+                vote: verifyVote(vote)
+            };
+            _.extend(person, data);
+            setClass(person);
+        });
+
+        // Senadores
+        obj[1] && obj[1].data && obj[1].data.filter((o, i) => i !== 0 && o[0]).map(o => {
+            let email = o[0],
+                person = indexes[email];
+            if (!person) {
+                return;
+            }
+
+            let name = o[3],
+                vote = o[1] && o[1].trim().toLowerCase();
+            let data = {
+                fullName: name,
+                phone: o[6],
+                facebook: o[7] ? o[7].trim() : '',
+                twitter: o[8] ? o[8].trim() : '',
+                cabinet: o[9],
+                site: o[10] ? o[10].trim() : person.siteGov,
+                photoUrl: o[11],
+                gender: o[12],
+                vote: verifyVote(vote)
             };
             _.extend(person, data);
             setClass(person);
@@ -109,6 +132,16 @@ gulp.task('load:data', () => {
                 setClass(person);
             }
         });
+
+        for (let i= 0, len=data.length; i<len; i++) {
+            let {vote, party} = data[i];
+            if (!parties[party]) {
+                parties[party] = [0,0,0];
+            }
+            let _party = parties[party],
+                idx = vote && 0 || (vote === false && 2 || 1);
+            _party[idx]++;
+        }
 
         $datum._data = data;
         $datum._parties = parties;
