@@ -126,6 +126,13 @@ Morris.Donut({
     <div class="panel panel-default {{parlamentClass}}">
         <div class="panel-heading">
             <h3 class="page-title">Lista de parlamentares</h3>
+            <select id="listFilter" class="form-control">
+                <option value="">Todos</option>
+                <option value=".item-deputados">Deputados Federais</option>
+                <option value=".item-senadores">Senadores</option>
+                <option value=":has(.fa-pencil-square-o)">Membros da Comissão</option>
+                <option value=":has(.fa-user-secret)">Parlamentares Réus</option>
+            </select>
         </div>
         <div class="panel-body container">
             <div class="row">
@@ -144,11 +151,11 @@ Morris.Donut({
                         </div>
                         <div class="panel-body">
                             <ul class="list-unstyled">
-                                <li><h4>Senadores</h4></li>
+                                <li class="item-divider"><h4>Senadores</h4></li>
                                 {{#senate.favor}}
                                 {{> item-list}}
                                 {{/senate.favor}}
-                                <li><h4>Deputados Federais</h4></li>
+                                <li class="item-divider"><h4>Deputados Federais</h4></li>
                                 {{#congress.favor}}
                                 {{> item-list}}
                                 {{/congress.favor}}
@@ -166,11 +173,11 @@ Morris.Donut({
                         </div>
                         <div class="panel-body">
                             <ul class="list-unstyled">
-                                <li><h4>Senadores</h4></li>
+                                <li class="item-divider"><h4>Senadores</h4></li>
                                 {{#senate.undecided}}
                                 {{> item-list}}
                                 {{/senate.undecided}}
-                                <li><h4>Deputados Federais</h4></li>
+                                <li class="item-divider"><h4>Deputados Federais</h4></li>
                                 {{#congress.undecided}}
                                 {{> item-list}}
                                 {{/congress.undecided}}
@@ -188,11 +195,11 @@ Morris.Donut({
                         </div>
                         <div class="panel-body">
                             <ul class="list-unstyled">
-                                <li><h4>Senadores</h4></li>
+                                <li class="item-divider"><h4>Senadores</h4></li>
                                 {{#senate.against}}
                                 {{> item-list}}
                                 {{/senate.against}}
-                                <li><h4>Deputados Federais</h4></li>
+                                <li class="item-divider"><h4>Deputados Federais</h4></li>
                                 {{#congress.against}}
                                 {{> item-list}}
                                 {{/congress.against}}
@@ -200,7 +207,6 @@ Morris.Donut({
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -208,6 +214,11 @@ Morris.Donut({
 $(function () {
     $('.btn').on('click', function() {
         ga && ga('send', 'event', 'mail', window.location.pathname, $(this).text().trim());
+    });
+    $('#listFilter').change(function() {
+        var val = $(this).val();
+        $('li', 'ul.list-unstyled').hide();
+        $('li'+val, 'ul.list-unstyled').show();
     });
 });
 </script>

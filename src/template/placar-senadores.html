@@ -100,6 +100,10 @@ Morris.Donut({
     <div class="panel panel-default {{parlamentClass}}">
         <div class="panel-heading">
             <h3 class="page-title">Lista de Senadores</h3>
+            <select id="listFilter" class="form-control">
+                <option value="">Todos - Senadores</option>
+                <option value=":has(.fa-user-secret)">Senadores Réus</option>
+            </select>
         </div>
         <div class="panel-body container">
             <div class="row">
@@ -167,6 +171,11 @@ Morris.Donut({
 $(function () {
     $('.btn').on('click', function() {
         ga && ga('send', 'event', 'mail', window.location.pathname, $(this).text().trim());
+    });
+    $('#listFilter').change(function() {
+        var val = $(this).val();
+        $('li', 'ul.list-unstyled').hide();
+        $('li'+val, 'ul.list-unstyled').show();
     });
 });
 </script>
