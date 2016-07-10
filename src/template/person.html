@@ -25,7 +25,7 @@
     {{#if thief}}
     <div class="row">
         <div class="panel panel-danger">
-            <div class="panel-heading"><h4>Ações na Justiça contra {{art}} {{type}}</h4></div>
+            <div class="panel-heading"><h4>Ações na Justiça contra {{o}} {{type}}</h4></div>
             <div class="panel-body">
                 {{#prosecutions}}
                 <p><a class="btn btn-block btn-danger btn-margin" rel="nofollow" href="{{link}}" target="_blank">
@@ -53,7 +53,7 @@
         <div class="col-md-8">
             <div class="panel panel-{{color}}" id="dados-{{fileName}}">
                 <div class="panel-heading">
-                    <h3 class="panel-title"><i class="fa fa-table"></i> Entre em contato com {{art}} {{type}}</h3>
+                    <h3 class="panel-title"><i class="fa fa-table"></i> Entre em contato com {{o}} {{type}}</h3>
                 </div>
                 <div class="panel-body">
                     <form class="form-horizontal">
@@ -113,19 +113,12 @@
                 <div class="panel-footer" style="font-size: 80%;">
                     <h4 style="margin-top: 0px;">O que você pode fazer?</h4>
 
-
-                    <p>
-                        Acima você encontra várias formas de entrar em contato com {{art}} {{type}}.
-                    </p>
-                    <p>
-                        Já que {{art}} {{type}} está <b>{{pos}}</b>,
-                        você pode entrar em contato com ela para cobrá-lo por seu posicionamento.
-                        Com as informações que já são públicas, é inaceitável um deputado não se posicionar.
-                    </p>
-                    <p>
-                        Use os dados de contato acima para escrever para ela, telefonar ou
-                        postar nas suas redes sociais, cobrando seu posicionamento.
-                    </p>
+                    <p>Acima você encontra várias formas de entrar em contato com {{o}} {{type}}.</p>
+                    <p>Já que {{o}} {{type}} está <b>{{pos}}</b> do Fim do Foro Privilegiado, você pode entrar em contato com {{ele}} para cobrá-lo por seu posicionamento.</p>
+                    {{#iff color '!=' 'green'}}
+                    <p>É inaceitável que {{o}} {{type}} continue copactuando com a impunidade policita no Brasil.</p>
+                    {{/iff}}
+                    <p>Use os dados de contato acima para escrever para {{ele}}, telefonar ou postar nas suas redes sociais, cobrando seu posicionamento.</p>
                 </div>
             </div>
         </div>

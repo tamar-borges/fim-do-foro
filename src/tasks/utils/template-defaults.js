@@ -14,7 +14,7 @@ module.exports = ($datum) => {
     if (!$datum.keywords || !~$datum.keywords.indexOf('mbl.org.br')) {
         $datum.keywords = [
             $datum.keywords,
-            'foro', 'privilegiado',
+            'foro', 'privilegiado', 'impunidade',
             'movimento', 'brasil', 'livre', 'mbl', 'mbl.org.br', 'mblivre'
         ].filter(k => !!k).join(',');
     }
@@ -35,12 +35,13 @@ module.exports = ($datum) => {
         if (tpl.fullName) {
             let isMale = tpl.gender.trim() === 'M',
                 vote = tpl.vote;
-            tpl.art = isMale ? 'o' : 'a';
-            tpl.pos = vote ? 'a favor' : vote === false ? 'contra' : isMale ? 'indeciso' : 'idencisa';
+            tpl.o = isMale ? 'o' : 'a';
+            tpl.ele = isMale ? 'ele' : 'ela';
+            tpl.pos = vote && 'a favor' || (vote === false && 'contra' || 'ignorando');
             let titlePos = `${vote === undefined ? 'está' : 'é'} ${tpl.pos}`;
 
             let type = tpl.dir === 'deputados' ? `Deputad${!isMale&&'a'||'o'}` : `Senador${!isMale&&'a'||''}`;
-            tpl.title = `${tpl.art.toUpperCase()} ${type} ${tpl.fullName} ${titlePos} - ${_title}`;
+            tpl.title = `${tpl.o.toUpperCase()} ${type} ${tpl.fullName} ${titlePos} - ${_title}`;
 
             tpl.url += `/${tpl.dir}/${tpl.fileName}.html`;
             tpl.type = type.toLowerCase();
