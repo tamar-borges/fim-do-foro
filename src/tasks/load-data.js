@@ -144,7 +144,15 @@ gulp.task('load:data', () => {
             _party[idx]++;
         }
 
-        $datum._data = data;
+        $datum._data = data.sort((a, b) => {
+            if (a.shortName > b.shortName) {
+                return 1;
+            } else if (a.shortName < b.shortName) {
+                return -1;
+            } else {
+                return 0;
+            }
+        });
         $datum._parties = parties;
     }
 });
