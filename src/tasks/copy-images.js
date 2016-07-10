@@ -7,16 +7,18 @@ const pathsFactory = require('./utils/paths');
 gulp.task('copy:images', () => {
     let promises = [];
     let $paths = pathsFactory();
-    let prom = gulp.src('src/images/*')
+    let prom = gulp.src(['src/images/*.jpg', 'src/images/*.png'])
         .pipe(plugins.rename({
             suffix: `-${$paths.pack.version}`
         }))
         .pipe(gulp.dest(`${$paths.www}/images`));
     promises.push(prom);
 
-    let promIt = gulp.src(`src/images/deputados/*`)
-        .pipe(gulp.dest(`${$paths.www}/images/deputados`));
-    promises.push(promIt);
+    ['deputados', 'senadores'].forEach(dir => {
+        let promIt = gulp.src(`src/images/${dir}/*`)
+            .pipe(gulp.dest(`${$paths.www}/images/${dir}`));
+        promises.push(promIt);
+    });
 
     return Promise.all(promises);
 });

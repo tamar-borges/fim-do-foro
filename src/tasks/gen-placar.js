@@ -8,6 +8,10 @@ const pathsFactory = require('./utils/paths');
 const tplDefaultsFactory = require('./utils/template-defaults');
 const optFactory = require('./utils/options-factory');
 
+const initEmail = () => {
+    return {favor: [], undecided: [], against: []};
+};
+
 gulp.task('gen:placar', ['load:data'], () => {
     let promises = [];
     for (let d = 0; d < $data.length; d++) {
@@ -19,15 +23,11 @@ gulp.task('gen:placar', ['load:data'], () => {
             tplDefaults = tplDefaultsFactory($datum);
 
         let template = {
-            senate: {favor: [], undecided: [], against: []},
-            congress: {favor: [], undecided: [], against: []},
+            senate: {favor: [], undecided: [], against: [], emails: initEmail()},
+            congress: {favor: [], undecided: [], against: [], emails: initEmail()},
+            emails: initEmail(),
             presidentClass: 'purple',
             president: {shortName: 'Michel Temer', party: 'PMDB', dir: 'executivos', fileName: 'michel-temer'}
-        };
-        let emails = {
-            favor: [],
-            undecided: [],
-            against: []
         };
         tplDefaults(template);
 
@@ -37,20 +37,27 @@ gulp.task('gen:placar', ['load:data'], () => {
                 vote = person.vote;
             if (vote) {
                 tplRef.favor.push(person);
-                emails.favor.push(person.email);
+                tplRef.emails.favor.push(person.email);
             } else if (vote === false) {
                 tplRef.against.push(person);
-                emails.against.push(person.email);
+                tplRef.emails.against.push(person.email);
             } else {
                 tplRef.undecided.push(person);
-                emails.undecided.push(person.email);
+                tplRef.emails.undecided.push(person.email);
             }
         }
 
         // emails
-        template.favorEmails = emails.favor.join(',');
-        template.undecidedEmails = emails.undecided.join(',');
-        template.againstEmails = emails.against.join(',');
+        ['favor', 'against', 'undecided'].forEach(prop => {
+            let list = template.emails[prop],
+                listSenate = template.senate.emails[prop],
+                listCongress = template.congress.emails[prop];
+            list.push(...listSenate);
+            list.push(...listCongress);
+            template[`${prop}Emails`] = list.join(',');
+            template.senate[`${prop}Emails`] = listSenate.join(',');
+            template.congress[`${prop}Emails`] = listCongress.join(',');
+        });
 
         // opinions
         template.senateFavor = template.senate.favor.length > (template.senate.against.length + template.senate.undecided.length);
@@ -71,7 +78,8 @@ gulp.task('gen:placar', ['load:data'], () => {
             if (path !== '') {
                 templ.url += `/${path}`;
             }
-            let prom = gulp.src($path.join($paths.template, `placar.html`))
+            let tplName = 'placar' + (path !== '' ? `-${path}` : ''),
+                prom = gulp.src($path.join($paths.template, `${tplName}.html`))
                 .pipe(plugins.compileHandlebars(templ, options))
                 .pipe(plugins.rename(`index.html`))
                 .pipe(plugins.htmlmin({

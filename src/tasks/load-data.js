@@ -3,6 +3,7 @@ const gulp = require('gulp');
 const _ = require('lodash');
 const xlsx = require('node-xlsx');
 const diacritics = require('diacritics');
+const changeCase = require('change-case');
 
 global.$data = require('../../data');
 
@@ -29,11 +30,11 @@ const loadPerson = (dir, indexes) => datum => {
         email = datum.email,
         fileName = diacritics.remove(name).trim().replace(/ /g, '-').toLocaleLowerCase(),
         vote = datum.opinion && datum.opinion.trim().toLowerCase(),
-        party = datum.party.trim().toUpperCase();
+        party = datum.party.trim();
 
     let person = {
-        shortName: name,
-        fullName: datum.fullName,
+        shortName: changeCase.titleCase(name),
+        fullName: datum.fullName ? changeCase.titleCase(datum.fullName) : '',
         dir,
         fileName,
         party,
@@ -79,7 +80,7 @@ gulp.task('load:data', () => {
             let name = o[3],
                 vote = o[1] && o[1].trim().toLowerCase();
             let data = {
-                fullName: name,
+                fullName: changeCase.titleCase(name),
                 commission: o[6] && o[6].toLowerCase().trim() === 'x',
                 phone: o[7],
                 facebook: o[8] ? o[8].trim() : '',
@@ -105,7 +106,7 @@ gulp.task('load:data', () => {
             let name = o[3],
                 vote = o[1] && o[1].trim().toLowerCase();
             let data = {
-                fullName: name,
+                fullName: changeCase.titleCase(name),
                 phone: o[6],
                 facebook: o[7] ? o[7].trim() : '',
                 twitter: o[8] ? o[8].trim() : '',

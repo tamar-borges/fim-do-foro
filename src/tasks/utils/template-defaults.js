@@ -38,11 +38,13 @@ module.exports = ($datum) => {
             tpl.art = isMale ? 'o' : 'a';
             tpl.pos = vote ? 'a favor' : vote === false ? 'contra' : isMale ? 'indeciso' : 'idencisa';
             let titlePos = `${vote === undefined ? 'está' : 'é'} ${tpl.pos}`;
-            tpl.title = `${tpl.art.toUpperCase()} Deputad${!isMale&&'a'||'o'} ${tpl.fullName} ${titlePos} - ${_title}`;
 
-            tpl.url += `/deputados/${tpl.fileName}.html`;
-            tpl.type = isMale ? 'deputado' : 'deputada';
-            tpl.typeCamel = tpl.type.substr(0,1).toUpperCase() + tpl.type.substr(1);
+            let type = tpl.dir === 'deputados' ? `Deputad${!isMale&&'a'||'o'}` : `Senador${!isMale&&'a'||''}`;
+            tpl.title = `${tpl.art.toUpperCase()} ${type} ${tpl.fullName} ${titlePos} - ${_title}`;
+
+            tpl.url += `/${tpl.dir}/${tpl.fileName}.html`;
+            tpl.type = type.toLowerCase();
+            tpl.typeCamel = type;
         }
 
         return tpl;

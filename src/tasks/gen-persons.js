@@ -21,7 +21,6 @@ gulp.task('gen:persons', ['load:data', 'download:person-img'], () => {
         for (let i = 0; i < _data.length; i++) {
             let template = _data[i];
             tplDefaults(template);
-            if (!template.thief) continue;
             let prom = gulp.src($path.join($paths.template, 'person.html'))
                 .pipe(plugins.compileHandlebars(template, options))
                 .pipe(plugins.rename(`${template.fileName}.html`))
@@ -30,7 +29,7 @@ gulp.task('gen:persons', ['load:data', 'download:person-img'], () => {
                     removeComments: true,
                     removeScriptTypeAttributes: true
                 }))
-                .pipe(gulp.dest(`${$paths.www}/deputados`));
+                .pipe(gulp.dest(`${$paths.www}/${template.dir}`));
             promises.push(prom);
         }
     }
