@@ -14,7 +14,7 @@ gulp.task('copy:images', () => {
         .pipe(gulp.dest(`${$paths.www}/images`));
     promises.push(prom);
 
-    ['deputados', 'senadores'].forEach(dir => {
+    ['deputados', 'senadores', 'executivos'].forEach(dir => {
         let promIt = gulp.src(`src/images/${dir}/*`)
             .pipe(gulp.dest(`${$paths.www}/images/${dir}`));
         promises.push(promIt);

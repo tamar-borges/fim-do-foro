@@ -42,6 +42,9 @@ const loadPerson = (dir, indexes) => datum => {
         cabinet: datum.cabinet,
         email,
         siteGov: datum.links && datum.links.details || '',
+        site: datum.site,
+        facebook: datum.facebook,
+        twitter: datum.twitter,
         gender: datum.gender || 'M',
         photo: `${fileName}.jpg`,
         photoUrl: datum.image,
@@ -64,9 +67,11 @@ gulp.task('load:data', () => {
             parties = {},
             data = [],
             congress = require('../../data/national-congress-data').map(loadPerson('deputados', indexes)),
-            senates = require('../../data/national-senate-data').map(loadPerson('senadores', indexes));
+            senates = require('../../data/national-senate-data').map(loadPerson('senadores', indexes)),
+            executives = require('../../data/national-executive-data').map(loadPerson('executivos', indexes));
         data.push(...senates);
         data.push(...congress);
+        data.push(...executives);
 
         let obj = xlsx.parse($datum.file);
         // Deputados
@@ -82,8 +87,8 @@ gulp.task('load:data', () => {
                 fullName: changeCase.titleCase(o[2]),
                 commission: o[6] && o[6].toLowerCase().trim() === 'x',
                 phone: o[7],
-                facebook: o[8] ? o[8].trim() : '',
-                twitter: o[9] ? o[9].trim() : '',
+                facebook: o[8] ? o[8].trim() : null,
+                twitter: o[9] ? o[9].trim() : null,
                 cabinet: o[10],
                 site: o[11] ? o[11].trim() : person.siteGov,
                 photoUrl: o[12],
@@ -106,8 +111,8 @@ gulp.task('load:data', () => {
             let data = {
                 fullName: changeCase.titleCase(o[2]),
                 phone: o[6],
-                facebook: o[7] ? o[7].trim() : '',
-                twitter: o[8] ? o[8].trim() : '',
+                facebook: o[7] ? o[7].trim() : null,
+                twitter: o[8] ? o[8].trim() : null,
                 cabinet: o[9],
                 site: o[10] ? o[10].trim() : person.siteGov,
                 photoUrl: o[11],

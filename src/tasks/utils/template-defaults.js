@@ -40,7 +40,12 @@ module.exports = ($datum) => {
             tpl.pos = vote && 'a favor' || (vote === false && 'contra' || 'ignorando');
             let titlePos = `${vote === undefined ? 'está' : 'é'} ${tpl.pos}`;
 
-            let type = tpl.dir === 'deputados' ? `Deputad${!isMale&&'a'||'o'}` : `Senador${!isMale&&'a'||''}`;
+            let type;
+            if (tpl.dir === 'executivos') {
+                type = (!tpl.state || tpl.state === 'BR') ? 'Presidente' : `Governador${!isMale&&'a'||''}`;
+            } else {
+                type = tpl.dir === 'deputados' ? `Deputad${!isMale&&'a'||'o'}` : `Senador${!isMale&&'a'||''}`;
+            }
             tpl.title = `${tpl.o.toUpperCase()} ${type} ${tpl.fullName} ${titlePos} - ${_title}`;
 
             tpl.url += `/${tpl.dir}/${tpl.fileName}.html`;

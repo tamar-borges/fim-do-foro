@@ -32,8 +32,12 @@ gulp.task('gen:placar', ['load:data'], () => {
         tplDefaults(template);
 
         for (let i= 0, len=_data.length; i<len; i++) {
-            let person = _data[i],
-                tplRef = person.dir === 'deputados' ? template.congress : template.senate,
+            let person = _data[i];
+            if (person.dir === 'executivos') {
+                continue;
+            }
+
+            let tplRef = person.dir === 'deputados' ? template.congress : template.senate,
                 vote = person.vote;
             if (vote) {
                 tplRef.favor.push(person);
