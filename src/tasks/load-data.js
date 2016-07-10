@@ -77,10 +77,9 @@ gulp.task('load:data', () => {
                 return;
             }
 
-            let name = o[3],
-                vote = o[1] && o[1].trim().toLowerCase();
+            let vote = o[1] && o[1].trim().toLowerCase();
             let data = {
-                fullName: changeCase.titleCase(name),
+                fullName: changeCase.titleCase(o[2]),
                 commission: o[6] && o[6].toLowerCase().trim() === 'x',
                 phone: o[7],
                 facebook: o[8] ? o[8].trim() : '',
@@ -103,10 +102,9 @@ gulp.task('load:data', () => {
                 return;
             }
 
-            let name = o[3],
-                vote = o[1] && o[1].trim().toLowerCase();
+            let vote = o[1] && o[1].trim().toLowerCase();
             let data = {
-                fullName: changeCase.titleCase(name),
+                fullName: changeCase.titleCase(o[2]),
                 phone: o[6],
                 facebook: o[7] ? o[7].trim() : '',
                 twitter: o[8] ? o[8].trim() : '',
