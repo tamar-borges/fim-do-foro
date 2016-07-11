@@ -138,12 +138,15 @@ gulp.task('load:data', () => {
         });
 
         for (let i= 0, len=data.length; i<len; i++) {
-            let {vote, party} = data[i];
+            let {vote, party, dir} = data[i];
+            if (dir === 'executivos') {
+                continue;
+            }
             if (!parties[party]) {
                 parties[party] = [0,0,0];
             }
             let _party = parties[party],
-                idx = vote && 0 || (vote === false && 2 || 1);
+                idx = vote ? 0 : (vote === false && 2 || 1);
             _party[idx]++;
         }
 
