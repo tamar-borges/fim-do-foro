@@ -1,6 +1,9 @@
 <li class="item-{{dir}}"><a href="/{{dir}}/{{fileName}}.html">
-    {{#if thief}}
-    <i class="fa fa-user-secret"></i>&nbsp;
+    {{#if prosecutions}}
+    <i class="fa fa-user-secret icon-thief"></i>&nbsp;
+    {{/if}}
+    {{#if investigations}}
+    <i class="fa fa-chain-broken icon-thief"></i>&nbsp;
     {{/if}}
     {{#if commission}}
     <i class="fa fa-pencil-square-o"></i>&nbsp;

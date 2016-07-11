@@ -3,8 +3,8 @@ const path = require('path');
 const pack = require('../../../package');
 
 var cache = {};
-//const $baseUrl = 'http://fim-do-foro.mbl.org.br';
-const $baseUrl = 'https://fim-do-foro.firebaseapp.com';
+const $baseUrl = 'https://fimdoforo.mbl.org.br';
+//const $baseUrl = 'https://fim-do-foro.firebaseapp.com';
 module.exports = ($datum) => {
     if (!$datum) $datum = {path: '/'};
 
@@ -15,7 +15,7 @@ module.exports = ($datum) => {
             url: $baseUrl,
             template: path.join(__dirname, '..', '..', 'template'),
             partial: path.join(__dirname, '..', '..', 'partials'),
-            www: path.join(process.cwd(), 'www')//`www/${pack.name}`)
+            www: path.join(process.cwd(), 'www')
         });
     }
     return cache[$datum.path];

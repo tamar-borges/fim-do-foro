@@ -124,17 +124,25 @@ gulp.task('load:data', () => {
         });
 
         // check thiefs
-        require('../../data/thiefs').forEach(thief => {
-            let person = indexes[thief.email];
-            if (!person) return;
+        let thiefs = [
+            ['prosecutions', true],
+            ['investigations', false]
+        ];
+        thiefs.forEach(([name, upt]) => {
+            require(`../../data/${name}`).forEach(thief => {
+                let person = indexes[thief.email];
+                if (!person) return;
 
-            person.thief = true;
-            person.prosecutions = thief.list;
+                if (thief.list && thief.list.length) {
+                    person[name] = thief.list;
+                    person.thief = true;
+                }
 
-            if ('boolean' !== typeof person.vote) {
-                person.vote = false;
-                setClass(person);
-            }
+                if (upt && 'boolean' !== typeof person.vote) {
+                    person.vote = false;
+                    setClass(person);
+                }
+            });
         });
 
         for (let i= 0, len=data.length; i<len; i++) {
