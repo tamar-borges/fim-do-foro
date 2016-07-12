@@ -129,7 +129,7 @@ gulp.task('load:data', () => {
             ['investigations', false]
         ];
         thiefs.forEach(([name, upt]) => {
-            require(`../../data/${name}`).forEach(thief => {
+            $datum[name].forEach(thief => {
                 let person = indexes[thief.email];
                 if (!person) return;
 
@@ -159,9 +159,11 @@ gulp.task('load:data', () => {
         }
 
         $datum._data = data.sort((a, b) => {
-            if (a.shortName > b.shortName) {
+            let aName = diacritics.remove(a.shortName),
+                bName = diacritics.remove(b.shortName);
+            if (aName > bName) {
                 return 1;
-            } else if (a.shortName < b.shortName) {
+            } else if (aName < bName) {
                 return -1;
             } else {
                 return 0;
